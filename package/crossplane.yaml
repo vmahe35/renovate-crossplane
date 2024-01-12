@@ -1,0 +1,16 @@
+apiVersion: meta.pkg.crossplane.io/v1
+kind: Configuration
+metadata:
+  annotations:
+    author: John Doe
+    friendly-name.meta.crossplane.io: Composition with Helm
+    meta.crossplane.io/description: |
+      A sample Crossplane blueprint that helps deploying some Helm Release resource(s) on your K8S cluster.
+    meta.crossplane.io/license: Apache-2.0
+  name: sample-with-helm-composition
+spec:
+  crossplane:
+    version: '>=v1.12.0'
+  dependsOn:
+  - provider: xpkg.upbound.io/crossplane-contrib/provider-helm
+    version: v0.15.0

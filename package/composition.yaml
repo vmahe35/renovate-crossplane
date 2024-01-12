@@ -1,0 +1,41 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: helm-composition.example.crossplane.io
+  labels:
+    implementation: compo-with-helm
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: example.crossplane.io/v1alpha1
+    kind: XWithHelm
+  resources:
+  - name: wordpress
+    base:
+      apiVersion: helm.crossplane.io/v1beta1
+      kind: Release
+      metadata:
+        name: wordpress-example
+      spec:
+        forProvider:
+          chart:
+            name: wordpress
+            repository: https://charts.bitnami.com/bitnami
+            version: 15.2.5
+          namespace: default
+          skipCreateNamespace: true
+          set:
+          - name: wordpressUsername
+            value: myuser
+          values:
+            service:
+              type: ClusterIP
+        providerConfigRef:
+          name: helm-provider-config
+    patches:
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.helm.customerData.repository
+      toFieldPath: spec.forProvider.chart.repository
+    - type: FromCompositeFieldPath
+      fromFieldPath: spec.parameters.helm.customerData.version
+      toFieldPath: spec.forProvider.chart.version

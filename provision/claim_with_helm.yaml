@@ -1,0 +1,14 @@
+apiVersion: example.crossplane.io/v1alpha1
+kind: WithHelm
+metadata:
+  namespace: crossplane-system
+  name: claim-with-helm
+spec:
+  parameters:
+    helm:
+      customerData:
+        repository: https://charts.bitnami.com/bitnami
+        version: 15.2.5
+  compositionSelector:
+    matchLabels:
+      implementation: compo-with-helm

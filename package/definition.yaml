@@ -1,0 +1,57 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  # name must match the spec fields below, and be in the form: <plural>.<group>
+  name: xwithhelm.example.crossplane.io
+spec:
+  names:
+    kind: XWithHelm
+    plural: xwithhelm
+  claimNames:
+    kind: WithHelm
+    plural: withhelm
+  # group name to use for REST API: /apis/<group>/<version>
+  group: example.crossplane.io
+  versions:
+  - name: v1alpha1
+    served: true
+    referenceable: true
+    schema:
+      openAPIV3Schema:
+        type: object
+        properties:
+          spec:
+            type: object
+            required:
+            - parameters
+            properties:
+              parameters:
+                type: object
+                required:
+                - helm
+                properties:
+                  helm:
+                    type: object
+                    required:
+                    - customerData
+                    properties:
+                      customerData:
+                        type: object
+                        required:
+                        - repository
+                        - version
+                        properties:
+                          repository:
+                            description: URL of the Helm repository
+                            type: string
+                          version:
+                            description: Version of the Helm chart
+                            type: string
+          status:
+            description: A Status represents the observed state
+            properties:
+              share:
+                description: Freeform field containing status information
+                type: object
+                x-kubernetes-preserve-unknown-fields: true
+            type: object

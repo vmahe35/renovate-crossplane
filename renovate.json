@@ -1,0 +1,22 @@
+{
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+    "extends": [
+        "config:recommended",
+        ":dependencyDashboard"
+    ],
+    "labels": [
+        "dependencies"
+    ],
+    "crossplane": {
+        "fileMatch": [
+            "package/.+\\.yaml$"
+        ]
+    },
+    "packageRules": [
+      {
+        "matchManagers": ["crossplane"],
+        "matchFileNames": ["package/**"],
+        "groupName": "packages"
+      }
+    ]
+}
