@@ -28,3 +28,33 @@ Deploy the Crossplane Claim with this command:
 ```shell
 kubectl apply -f provision/claim_with_helm.yaml
 ```
+
+## To reproduce Issue
+
+Generate a GitHub Access token with enough rights for renovate to scan this public project.
+
+Create a file named `config.github.js` locally, containing the following config:
+
+```js
+module.exports = {
+  "token": '<your-github-access-token>',
+  "platform": "github",
+  "repositories": ['vmahe35/renovate-crossplane'],
+  "dependencyDashboardAutoclose": true,
+  "autodiscover": false,
+  "ignorePrAuthor": true,
+  "extends": ["mergeConfidence:all-badges"],
+  "minimumReleaseAge": "3 days",
+  "internalChecksFilter": "strict",
+  "onboardingConfig": {
+    "extends": ["config:recommended", ":dependencyDashboard"],
+    "labels": ["dependencies"]
+  }
+};
+```
+
+And launch the following command to execute renovate locally:
+
+```js
+docker run --rm -v "$(pwd)/config.github.js:/usr/src/app/config.js" -e "GITHUB_COM_TOKEN=<your-github-token>" -e LOG_LEVEL=debug renovate/renovate:37-full
+```
