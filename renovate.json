@@ -9,14 +9,20 @@
     ],
     "crossplane": {
         "fileMatch": [
-            "package/.+\\.yaml$"
+            "package/.+\\.yaml$",
+            "provision/.+\\.yaml$"
         ]
     },
     "packageRules": [
-      {
-        "matchManagers": ["crossplane"],
-        "matchFileNames": ["package/**"],
-        "groupName": "packages"
-      }
+        {
+            "matchManagers": [
+                "crossplane"
+            ],
+            "matchFileNames": [
+                "package/**",
+                "provision/**"
+            ],
+            "groupName": "packages"
+        }
     ]
 }
